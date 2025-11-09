@@ -3,9 +3,9 @@
 
 #define DAC_CHANNEL_A 0
 #define DAC_CHANNEL_B 1
-#define NUM_SAMPLES 256  // Nombre d'échantillons pour nos vagues
+#define NUM_SAMPLES 256  
 #define PI 3.1415926535f
-#define TIMER_CLOCK_FREQ 64000000.0f // 1MHz (64MHz / (Prescaler+1))
+#define TIMER_CLOCK_FREQ 64000000.0f
 
 typedef enum {
     WAVE_NONE,
@@ -13,9 +13,6 @@ typedef enum {
     WAVE_TRIANGLE,
     WAVE_SAWTOOTH
 } Waveform_t;
-
-
-/* --- Prototypes des Fonctions --- */
 
 /**
  * @brief Initialise le driver du DAC.
@@ -60,3 +57,4 @@ void Set_Sawtooth_Wave(float frequency, uint16_t amplitude);
 void MCP4922_TIM_Callback(void);
 
 #endif /* INC_MCP4922_H_ */
+
