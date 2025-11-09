@@ -5,7 +5,7 @@
 static SPI_HandleTypeDef* g_hspi;
 static TIM_HandleTypeDef* g_htim;
 
-// Table de consultation (Lookup Table) pour la sinusoïde (256 points, 0-4095)
+//sinus lookup table
 static const uint16_t sine_lut[NUM_SAMPLES] = {
 		2048, 2098, 2148, 2198, 2248, 2298, 2348, 2398,
 		2447, 2496, 2545, 2594, 2642, 2690, 2737, 2784,
@@ -41,7 +41,6 @@ static const uint16_t sine_lut[NUM_SAMPLES] = {
 		1648, 1697, 1747, 1797, 1847, 1897, 1947, 1997,
 };
 
-// Variables d'état globales (privées)
 static volatile Waveform_t g_current_wave = WAVE_NONE;
 static volatile uint32_t g_sample_index = 0;
 static volatile float g_current_value = 0.0f;
@@ -168,12 +167,11 @@ void MCP4922_TIM_Callback(void)
     }
 
     // Envoyer la valeur finale au DAC (Canal A)
-    // Note: cette fonction doit être rapide, nous utilisons une version optimisée
 
     // 1. Construire la trame
     uint16_t command_word = 0x7000 | (dac_value & 0x0FFF);
 
-    // 2. Envoyer (sans pulsar LDAC pour l'instant, on le fera à la fin)
+    // 2. Envoyer (sans pulsar LDAC)
     HAL_GPIO_WritePin(CS_DAC_GPIO_Port, CS_DAC_Pin, GPIO_PIN_RESET);
     HAL_SPI_Transmit(g_hspi, (uint8_t*)&command_word, 1, 1);
     HAL_GPIO_WritePin(CS_DAC_GPIO_Port, CS_DAC_Pin, GPIO_PIN_SET);
@@ -182,3 +180,4 @@ void MCP4922_TIM_Callback(void)
     HAL_GPIO_WritePin(LDAC_DAC_GPIO_Port, LDAC_DAC_Pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(LDAC_DAC_GPIO_Port, LDAC_DAC_Pin, GPIO_PIN_SET);
 }
+
